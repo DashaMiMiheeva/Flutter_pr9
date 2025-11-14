@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pr9/presentation/count/calculator_screen.dart';
 import 'package:flutter_pr9/presentation/count/cubit/calculator_cubit.dart';
+import 'package:flutter_pr9/presentation/reminder/cubit/reminder_cubit.dart';
+import 'package:flutter_pr9/presentation/reminder/reminder_screen.dart';
 import 'package:flutter_pr9/presentation/welcome/register_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -55,6 +57,13 @@ class App extends StatelessWidget {
             GoRoute(path: '/analysis', builder: (_, __) => const AnalysisScreen()),
             GoRoute(path: '/profile', builder: (_, __) => ProfileScreen()),
             GoRoute(path: '/count', builder: (_, __) => const CalculatorScreen()),
+            GoRoute(
+              path: '/reminders',
+              builder: (_, __) => BlocProvider(
+                create: (_) => ReminderCubit(),
+                child: const ReminderScreen(),
+              ),
+            ),
           ],
         ),
       ],

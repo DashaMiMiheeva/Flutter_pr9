@@ -12,7 +12,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _index = 0;
 
-  final _pages = ['/diary', '/analysis', '/profile', '/count'];
+  final _pages = ['/diary', '/analysis', '/profile', '/count', '/reminders'];
 
   void _onTap(int i) {
     setState(() => _index = i);
@@ -34,6 +34,7 @@ class _MainNavigationState extends State<MainNavigation> {
           NavigationDestination(icon: Icon(Icons.pie_chart), label: "Анализ"),
           NavigationDestination(icon: Icon(Icons.person), label: "Профиль"),
           NavigationDestination(icon: Icon(Icons.calculate), label: "Расчет"),
+          NavigationDestination(icon: Icon(Icons.notifications), label: "Напоминание"),
         ],
       ),
     );
