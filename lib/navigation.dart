@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class MainNavigation extends StatefulWidget {
+class MainNavigation extends StatelessWidget {
   final Widget child;
   const MainNavigation({required this.child, super.key});
 
-  @override
-  State<MainNavigation> createState() => _MainNavigationState();
-}
+  static const _pages = [
+    '/diary',
+    '/analysis',
+    '/profile',
+    '/count',
+    '/reminders'
+  ];
 
-class _MainNavigationState extends State<MainNavigation> {
-  int _index = 0;
-
-  final _pages = ['/diary', '/analysis', '/profile', '/count', '/reminders'];
-
-  void _onTap(int i) {
-    setState(() => _index = i);
-    context.go(_pages[i]);
+  int _locationToIndex(String location) {
+    final index = _pages.indexWhere((p) => location.startsWith(p));
+    return index == -1 ? 0 : index;
   }
 
   @override
   Widget build(BuildContext context) {
+    final location = GoRouter.of(context).location;
+    final currentIndex = _locationToIndex(location);
+
     return Scaffold(
-      body: widget.child,
+      body: child,
       bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.white54,
-        selectedIndex: _index,
-        onDestinationSelected: _onTap,
-        indicatorColor: Colors.white24,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        selectedIndex: currentIndex,
+        onDestinationSelected: (i) => context.go(_pages[i]),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.list), label: "Дневник"),
           NavigationDestination(icon: Icon(Icons.pie_chart), label: "Анализ"),
           NavigationDestination(icon: Icon(Icons.person), label: "Профиль"),
           NavigationDestination(icon: Icon(Icons.calculate), label: "Расчет"),
-          NavigationDestination(icon: Icon(Icons.notifications), label: "Напоминание"),
+          NavigationDestination(icon: Icon(Icons.notifications), label: "Напоминания"),
         ],
       ),
     );

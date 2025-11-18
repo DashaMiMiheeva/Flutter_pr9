@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pr9/presentation/welcome/register_screen.dart';
-
 import 'login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {

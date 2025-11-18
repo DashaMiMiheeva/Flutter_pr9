@@ -19,7 +19,6 @@ class DiaryScreen extends StatelessWidget {
           if (foods.isEmpty) {
             return const Center(child: Text("Записей нет"));
           }
-
           return ListView.builder(
             itemCount: foods.length,
             itemBuilder: (context, index) {
@@ -27,6 +26,27 @@ class DiaryScreen extends StatelessWidget {
               return ListTile(
                 title: Text(item.name),
                 subtitle: Text("${item.calories} ккал"),
+                trailing: PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'delete') {
+                      context.read<DiaryCubit>().delete(item.id);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('"${item.name}" удален')),
+                      );
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem<String>(
+                      value: 'details',
+                      child: Text('Подробности'),
+                      enabled: false,
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Удалить', style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
               );
             },
           );

@@ -38,7 +38,7 @@ class RegisterScreen extends StatelessWidget {
               onPressed: () {
                 userCubit.updateName(nameController.text);
                 userCubit.updateEmail(emailController.text);
-                context.go('/diary'); // переходим в дневник
+                context.go('/diary');
               },
               child: const Text("Зарегистрироваться"),
             ),

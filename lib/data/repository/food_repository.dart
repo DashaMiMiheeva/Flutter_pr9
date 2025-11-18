@@ -1,5 +1,3 @@
-
-
 import '../model/food.dart';
 
 class FoodRepository {

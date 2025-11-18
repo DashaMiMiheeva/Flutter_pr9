@@ -10,6 +10,7 @@ class CalculatorState {
   final double carbs;
   final double activity;
 
+
   const CalculatorState({
     required this.goal,
     required this.calories,

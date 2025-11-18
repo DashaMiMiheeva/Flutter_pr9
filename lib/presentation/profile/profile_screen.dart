@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/model/user.dart';
 import '../profile/user_cubit.dart';
 
@@ -25,14 +24,13 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: BlocBuilder<UserCubit, User>(
           builder: (context, user) {
-            if (heightController.text.isEmpty) heightController.text = user.height.toString();
-            if (weightController.text.isEmpty) weightController.text = user.weight.toString();
-            if (caloriesController.text.isEmpty) caloriesController.text = user.calories.toString();
-            if (proteinController.text.isEmpty) proteinController.text = user.protein.toString();
-            if (fatController.text.isEmpty) fatController.text = user.fat.toString();
-            if (carbsController.text.isEmpty) carbsController.text = user.carbs.toString();
-            if (activityController.text.isEmpty) activityController.text = user.activity.toString();
-
+            if (heightController.text.isEmpty && user.height > 0) heightController.text = user.height.toString();
+            if (weightController.text.isEmpty && user.weight > 0) weightController.text = user.weight.toString();
+            if (caloriesController.text.isEmpty && user.calories > 0) caloriesController.text = user.calories.toString();
+            if (proteinController.text.isEmpty && user.protein > 0) proteinController.text = user.protein.toString();
+            if (fatController.text.isEmpty && user.fat > 0) fatController.text = user.fat.toString();
+            if (carbsController.text.isEmpty && user.carbs > 0) carbsController.text = user.carbs.toString();
+            if (activityController.text.isEmpty && user.activity > 0) activityController.text = user.activity.toString();
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

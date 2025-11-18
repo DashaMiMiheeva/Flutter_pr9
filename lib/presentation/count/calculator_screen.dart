@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/calculator_cubit.dart';
+import '../profile/user_cubit.dart';
 
+class CalculatorScreen extends StatelessWidget {
+  CalculatorScreen({super.key});
 
-class CalculatorScreen extends StatefulWidget {
-  const CalculatorScreen({super.key});
-
-  @override
-  State<CalculatorScreen> createState() => _CalculatorScreenState();
-}
-
-class _CalculatorScreenState extends State<CalculatorScreen> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
-  String sex = "male";
-  double activityLevel = 1.2;
+  final ValueNotifier<String> sex = ValueNotifier<String>("male");
+  final ValueNotifier<double> activityLevel = ValueNotifier<double>(1.2);
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = context.read<UserCubit>();
+    final user = userCubit.state;
+
+    // Инициализация полей из UserCubit
+    if (user.weight != 0) weightController.text = user.weight.toString();
+    if (user.height != 0) heightController.text = user.height.toString();
+    if (user.age != 0) ageController.text = user.age.toString();
+
     return Scaffold(
       appBar: AppBar(title: const Text("Калькулятор КБЖУ")),
       body: Padding(
@@ -42,35 +45,49 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 12),
-              DropdownButton<String>(
-                value: sex,
-                items: const [
-                  DropdownMenuItem(value: "male", child: Text("Мужчина")),
-                  DropdownMenuItem(value: "female", child: Text("Женщина")),
-                ],
-                onChanged: (v) => setState(() => sex = v!),
+              ValueListenableBuilder<String>(
+                valueListenable: sex,
+                builder: (context, value, _) {
+                  return DropdownButton<String>(
+                    value: value,
+                    items: const [
+                      DropdownMenuItem(value: "male", child: Text("Мужчина")),
+                      DropdownMenuItem(value: "female", child: Text("Женщина")),
+                    ],
+                    onChanged: (v) => sex.value = v!,
+                  );
+                },
               ),
               const SizedBox(height: 12),
-              DropdownButton<double>(
-                value: activityLevel,
-                items: const [
-                  DropdownMenuItem(value: 1.2, child: Text("Минимальная активность")),
-                  DropdownMenuItem(value: 1.375, child: Text("Лёгкая активность")),
-                  DropdownMenuItem(value: 1.55, child: Text("Средняя активность")),
-                  DropdownMenuItem(value: 1.725, child: Text("Высокая активность")),
-                  DropdownMenuItem(value: 1.9, child: Text("Очень высокая активность")),
-                ],
-                onChanged: (v) => setState(() => activityLevel = v!),
+              ValueListenableBuilder<double>(
+                valueListenable: activityLevel,
+                builder: (context, value, _) {
+                  return DropdownButton<double>(
+                    value: value,
+                    items: const [
+                      DropdownMenuItem(value: 1.2, child: Text("Минимальная активность")),
+                      DropdownMenuItem(value: 1.375, child: Text("Лёгкая активность")),
+                      DropdownMenuItem(value: 1.55, child: Text("Средняя активность")),
+                      DropdownMenuItem(value: 1.725, child: Text("Высокая активность")),
+                      DropdownMenuItem(value: 1.9, child: Text("Очень высокая активность")),
+                    ],
+                    onChanged: (v) => activityLevel.value = v!,
+                  );
+                },
               ),
               const SizedBox(height: 12),
-              DropdownButton<Goal>(
-                value: context.watch<CalculatorCubit>().state.goal,
-                items: const [
-                  DropdownMenuItem(value: Goal.lose, child: Text("Похудение")),
-                  DropdownMenuItem(value: Goal.maintain, child: Text("Поддержание")),
-                  DropdownMenuItem(value: Goal.gain, child: Text("Набор массы")),
-                ],
-                onChanged: (v) => context.read<CalculatorCubit>().updateGoal(v!),
+              BlocBuilder<CalculatorCubit, CalculatorState>(
+                builder: (context, state) {
+                  return DropdownButton<Goal>(
+                    value: state.goal,
+                    items: const [
+                      DropdownMenuItem(value: Goal.lose, child: Text("Похудение")),
+                      DropdownMenuItem(value: Goal.maintain, child: Text("Поддержание")),
+                      DropdownMenuItem(value: Goal.gain, child: Text("Набор массы")),
+                    ],
+                    onChanged: (v) => context.read<CalculatorCubit>().updateGoal(v!),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -79,12 +96,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   final height = int.tryParse(heightController.text) ?? 170;
                   final age = int.tryParse(ageController.text) ?? 25;
 
+                  if (user.weight == 0) userCubit.updateWeight(weight);
+                  if (user.height == 0) userCubit.updateHeight(height);
+                  if (user.age == 0) userCubit.updateAge(age);
+
                   context.read<CalculatorCubit>().calculate(
                     weight: weight,
                     height: height,
                     age: age,
-                    sex: sex,
-                    activityLevel: activityLevel,
+                    sex: sex.value,
+                    activityLevel: activityLevel.value,
                   );
                 },
                 child: const Text("Рассчитать"),
@@ -116,4 +137,3 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 }
-

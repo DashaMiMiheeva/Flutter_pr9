@@ -6,7 +6,6 @@ import '../../locator.dart';
 import '../common/meal_type.dart';
 import 'cubit/add_food_cubit.dart';
 
-
 class AddFoodScreen extends StatefulWidget {
   const AddFoodScreen({super.key});
 
@@ -38,14 +37,12 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
               TextField(controller: _pController, decoration: const InputDecoration(labelText: "Белки"), keyboardType: TextInputType.number),
               TextField(controller: _fController, decoration: const InputDecoration(labelText: "Жиры"), keyboardType: TextInputType.number),
               TextField(controller: _cController, decoration: const InputDecoration(labelText: "Углеводы"), keyboardType: TextInputType.number),
-
               const SizedBox(height: 12),
               DropdownButton(
                 value: meal,
                 items: MealType.types.map((m) => DropdownMenuItem(value: m, child: Text(m))).toList(),
                 onChanged: (v) => setState(() => meal = v!),
               ),
-
               const Spacer(),
               ElevatedButton(
                 onPressed: () {
@@ -59,7 +56,6 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                     mealType: meal,
                     imageUrl: MealType.images[meal]!,
                   );
-
                   context.read<AddFoodCubit>().add(food);
                   Navigator.pop(context);
                 },

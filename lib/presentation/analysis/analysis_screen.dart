@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/model/food.dart';
 import '../../data/model/user.dart';
 import '../profile/user_cubit.dart';
@@ -12,7 +11,6 @@ class AnalysisScreen extends StatelessWidget {
 
   Widget _circle(String title, double current, double max) {
     final progress = (max == 0 ? 0.0 : (current / max).clamp(0.0, 1.0));
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -41,7 +39,6 @@ class AnalysisScreen extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -58,7 +55,6 @@ class AnalysisScreen extends StatelessWidget {
           child: BlocBuilder<AnalysisCubit, AnalysisState>(
             builder: (context, analysis) {
               final user = context.read<UserCubit>().state;
-
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
