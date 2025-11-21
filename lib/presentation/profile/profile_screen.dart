@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/user.dart';
 import '../profile/user_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -87,6 +88,11 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                     child: const Text("Сохранить"),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () => context.go('/reminders'),
+                    child: const Text("Настройки уведомлений"),
                   ),
                 ],
               ),

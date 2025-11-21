@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/food.dart';
 import '../../data/model/user.dart';
 import '../profile/user_cubit.dart';
+import '../activity/cubit/activity_cubit.dart';
 import '../dairy/cubit/diary_cubit.dart';
 import 'cubit/analysis_cubit.dart';
 
@@ -46,7 +47,8 @@ class AnalysisScreen extends StatelessWidget {
         final cubit = AnalysisCubit();
         final diary = context.read<DiaryCubit>().state;
         final user = context.read<UserCubit>().state;
-        cubit.updateFromDiary(diary, user);
+        final activities = context.read<ActivityCubit>().state.activities;
+        cubit.updateFromDiary(diary, user, activities);
         return cubit;
       },
       child: Scaffold(

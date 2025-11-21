@@ -15,3 +15,5 @@ class UserCubit extends Cubit<User> {
   void updateCarbs(int carbs) => emit(state.copyWith(carbs: carbs));
   void updateActivity(int activity) => emit(state.copyWith(activity: activity));
 }
+
+

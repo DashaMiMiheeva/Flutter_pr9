@@ -6,6 +6,7 @@ import 'package:flutter_pr9/presentation/count/cubit/calculator_cubit.dart';
 import 'package:flutter_pr9/presentation/reminder/cubit/reminder_cubit.dart';
 import 'package:flutter_pr9/presentation/reminder/reminder_screen.dart';
 import 'package:flutter_pr9/presentation/welcome/register_screen.dart';
+import 'package:flutter_pr9/data/api/activity_api.dart';
 import 'package:go_router/go_router.dart';
 import 'locator.dart';
 import 'data/repository/food_repository.dart';
@@ -14,9 +15,12 @@ import 'presentation/welcome/welcome_screen.dart';
 import 'presentation/dairy/diary_screen.dart';
 import 'presentation/dairy/cubit/diary_cubit.dart';
 import 'presentation/profile/profile_screen.dart';
+import 'presentation/activity/activity_screen.dart';
 import 'presentation/profile/user_cubit.dart';
 import 'presentation/analysis/analysis_screen.dart';
-
+import 'presentation/activity/cubit/activity_cubit.dart';
+import 'presentation/welcome/cubit/login_cubit.dart';
+import 'presentation/welcome/cubit/register_cubit.dart';
 
 void main() {
   setupLocator();
@@ -38,7 +42,7 @@ class App extends StatelessWidget {
       initialLocation: '/',
       routes: [
         GoRoute(path: '/', builder: (_, __) => const WelcomeScreen()),
-        GoRoute(path: '/register', builder: (_, __) => RegisterScreen()),
+        // GoRoute(path: '/register', builder: (_, __) => RegisterScreen()),
 
         ShellRoute(
           builder: (context, state, child) {
@@ -63,6 +67,10 @@ class App extends StatelessWidget {
             ),
             GoRoute(
               path: '/reminders', builder: (_, __) => const ReminderScreen()),
+            GoRoute(
+              path: '/activity',
+              builder: (_, __) => ActivityScreen(),
+            ),
           ],
         ),
       ],
@@ -73,6 +81,19 @@ class App extends StatelessWidget {
         BlocProvider.value(value: context.read<UserCubit>()),
         BlocProvider(create: (_) => DiaryCubit(locator.get<FoodRepository>())),
         BlocProvider(create: (_) => ReminderCubit()),
+        BlocProvider(
+          create: (context) {
+            final userCubit = context.read<UserCubit>();
+            return ActivityCubit(
+              api: ActivityApi(),
+              initialWeight: userCubit.state.weight,
+              userCubit: userCubit,
+            );
+          },
+          child: ActivityScreen(),
+        ),
+        BlocProvider(create: (_) => LoginCubit()),
+        BlocProvider(create: (_) => RegisterCubit()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

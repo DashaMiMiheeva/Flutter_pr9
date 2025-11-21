@@ -17,7 +17,6 @@ class CalculatorScreen extends StatelessWidget {
     final userCubit = context.read<UserCubit>();
     final user = userCubit.state;
 
-    // Инициализация полей из UserCubit
     if (user.weight != 0) weightController.text = user.weight.toString();
     if (user.height != 0) heightController.text = user.height.toString();
     if (user.age != 0) ageController.text = user.age.toString();

@@ -10,7 +10,7 @@ class MainNavigation extends StatelessWidget {
     '/analysis',
     '/profile',
     '/count',
-    '/reminders'
+    '/activity'
   ];
 
   int _locationToIndex(String location) {
@@ -33,7 +33,7 @@ class MainNavigation extends StatelessWidget {
           NavigationDestination(icon: Icon(Icons.pie_chart), label: "Анализ"),
           NavigationDestination(icon: Icon(Icons.person), label: "Профиль"),
           NavigationDestination(icon: Icon(Icons.calculate), label: "Расчет"),
-          NavigationDestination(icon: Icon(Icons.notifications), label: "Напоминания"),
+          NavigationDestination(icon: Icon(Icons.directions_run), label: "Активность"),
         ],
       ),
     );
